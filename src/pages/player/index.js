@@ -1,16 +1,22 @@
 import Titulo from "components/Titulo";
 import { useParams } from "react-router-dom";
-import videos from "json/db.json";
 import Erro404 from "pages/404";
+import { useEffect, useState } from "react";
 
 export default function Player() {
+  const [item, setItem] = useState();
   const param = useParams();
-  const item = videos.find((video) => {
-    return video.id === Number(param.id);
-  });
 
-  if(!item){
-    return <Erro404/>
+  useEffect(() => {
+    fetch(
+      `https://my-json-server.typicode.com/srkain/cineapi/videos?id=${param.id}`
+    )
+      .then((resposta) => resposta.json())
+      .then((dados) => setItem(...dados));
+  }, []);
+
+  if (!item) {
+    return <Erro404 />;
   }
 
   return (

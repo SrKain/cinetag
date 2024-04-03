@@ -1,10 +1,17 @@
-import Banner from "components/Banner";
 import Card from "components/Card";
 import Titulo from "components/Titulo";
-import videos from "json/db.json";
 import styles from "./inicio.module.css";
+import { useEffect, useState } from "react";
 
 export default function Inicio() {
+  const [videos, setVideos] = useState([]);
+  useEffect(() => {
+    fetch("https://my-json-server.typicode.com/srkain/cineapi/videos")
+      .then((resposta) => resposta.json())
+      .then((dados) => {
+        setVideos(dados);
+      });
+  }, []);
   return (
     <>
       <Titulo>
